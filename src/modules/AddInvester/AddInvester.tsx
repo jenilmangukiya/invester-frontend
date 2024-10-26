@@ -20,13 +20,16 @@ export const AddInvester = () => {
 
   const { mutate: extractFileText } = useExtractFileText({
     onSuccess: (data) => {
-      console.log("data", data);
       setPdfContent(data.data.data);
       setLoading(false);
     },
     onError: (error) => {
       console.error("Error fetching PDF content:", error);
-      alert("Failed to retrieve PDF content.");
+      setSnackbarConfig({
+        message: "Failed to retrieve PDF content.",
+        open: true,
+        severity: "error",
+      });
       setLoading(false);
     },
   });
@@ -39,6 +42,8 @@ export const AddInvester = () => {
         severity: "success",
       });
       setLoading(false);
+      setPdfContent("");
+      setInvesterName("");
     },
     onError: (error) => {
       console.error("Error saving content:", error);
@@ -47,6 +52,7 @@ export const AddInvester = () => {
         open: true,
         severity: "error",
       });
+
       setLoading(false);
     },
   });
@@ -54,7 +60,11 @@ export const AddInvester = () => {
   // Handler to fetch content from API
   const handleSubmit = async () => {
     if (!pdfFile) {
-      alert("Please select a PDF file.");
+      setSnackbarConfig({
+        message: "Please select a PDF file.",
+        open: true,
+        severity: "error",
+      });
       return;
     }
 

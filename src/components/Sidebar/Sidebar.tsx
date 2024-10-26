@@ -29,6 +29,7 @@ const Sidebar = () => {
       <Stack>
         {sidebar.map((item) => (
           <NavLink
+            key={item.href}
             to={item.href}
             style={{ textDecoration: "none", color: "black" }}
           >
